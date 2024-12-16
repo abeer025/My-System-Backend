@@ -1,11 +1,11 @@
 import express from "express";
-import { CourseModel } from "../models/CourseModel.js";
+import { CourseModal } from "../Modals/CourseModal";
 
 const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
-    let newCourse = new CourseModel(req.body);
+    let newCourse = new CourseModal(req.body);
     newCourse = await newCourse.save();
 
     res.status(201).json({
@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const courses = await CourseModel.find();
+    const courses = await CourseModal.find();
     res.status(200).json({
       error: false,
       msg: "Courses Fetched Successfully",

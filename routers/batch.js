@@ -1,11 +1,11 @@
 import express from "express";
-import { BatchModel } from "../models/BatchModel.js";
+import { BatchModal } from "../Modals/BatchModal";
 
 const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
-    let newBatch = new BatchModel(req.body);
+    let newBatch = new BatchModal(req.body);
     newBatch = await newBatch.save();
 
     res.status(201).json({
@@ -26,7 +26,7 @@ router.get("/", async (req, res) => {
       query.course = req.query.course;
     }
 
-    const batches = await BatchModel.find(query).populate("course", "title");
+    const batches = await BatchModal.find(query).populate("course", "title");
     res.status(200).json({
       error: false,
       msg: "Batches Fetched Successfully",
