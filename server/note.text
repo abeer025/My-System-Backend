@@ -1,0 +1,31 @@
+#API FOR USER
+http://localhost:4000/api/v1/user/
+http://localhost:4000/api/v1/user/register/
+http://localhost:4000/api/v1/user/login/
+
+#API FOR COURSES
+http://localhost:4000/api/v1/course/
+
+#Student fetches available courses
+http://localhost:4000/api/v1/course/available/
+
+#Student can apply on available courses
+http://localhost:4000/api/v1/applyCourse/
+
+#trainer fetches their courses and enrolled students
+http://localhost:4000/api/v1/course/trainer/:trainerId/
+
+#Admin fetches enrollment details for a course
+http://localhost:4000/api/v1/course/:id/enrollments/
+
+
+#API FOR BATCHES
+http://localhost:4000/api/v1/batch/
+
+#get single batches
+http://localhost:4000/api/v1/batch/:id/
+
+
+#deploy link of apis use after fetching instead of localhost
+https://smitproject.onrender.com/
+
