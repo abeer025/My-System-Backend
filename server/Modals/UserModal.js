@@ -4,13 +4,13 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
-    name: String,
+    FullName: String,
     email: { type: String, required: true },
     profileImage: { type: String },
     password: { type: String, required: true },
     role: {
       type: String,
-      enum: ["admin", "student","trainer"],
+      enum: ["admin", "student", "trainer"],
       default: "student",
     },
     enrolledCourses: [
