@@ -23,6 +23,8 @@ app.use(
     credentials: true,
   })
 );
+// Routes
+// app.use('/api', trainerCardRoutes);
 
 // apis routers
 app.use("/api/v1/user", user);

@@ -11,7 +11,7 @@ const courseSchema = new mongoose.Schema(
     thumbnail: String,
     trainerId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, //to get trainer id if login as trainer
     enrolledStudents: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], //to get student id
-  
+
   },
   {
     timestamps: true,
