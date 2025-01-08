@@ -6,6 +6,7 @@ import course from "./routers/course.route.js";
 import batch from "./routers/batch.route.js";
 import applyCourse from "./routers/applyCourse.route.js";
 import cors from "cors";
+import trainer from './routers/trainer.route.js'
 
 dotenv.config({});
 
@@ -24,7 +25,7 @@ app.use(
   })
 );
 // Routes
-// app.use('/api', trainerCardRoutes);
+app.use('/api/v1/trainer', trainer);
 
 // apis routers
 app.use("/api/v1/user", user);

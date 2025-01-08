@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const TrainerCardSchema = new mongoose.Schema({
+const TrainerSchema = new mongoose.Schema({
   courseName: { type: String, required: true },
   batchName: { type: String, required: true },
   studentName: { type: String, required: true },
   avatarUrl: { type: String, required: false },
 }, { timestamps: true });
 
-module.exports = mongoose.model('TrainerCard', TrainerCardSchema);
+export const TrainerModal = mongoose.models.Trainer || mongoose.model("Trainer", TrainerSchema);

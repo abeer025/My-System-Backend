@@ -1,21 +1,31 @@
-const TrainerCard = require('../models/TrainerCard');
+import { TrainerModal } from '../Modals/TrainerModal.js'; // Adjust path if necessary
+
 
 // Create a Trainer Card
-exports.createTrainerCard = async (req, res) => {
+export const createTrainerCard = async (req, res) => {
   try {
     const { courseName, batchName, studentName, avatarUrl } = req.body;
-    const newCard = new TrainerCard({ courseName, batchName, studentName, avatarUrl });
+
+    // Ensure proper data structure
+    if (!courseName || !batchName || !studentName) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    // Create new trainer card
+    const newCard = new TrainerModal({ courseName, batchName, studentName, avatarUrl });
     await newCard.save();
+
     res.status(201).json({ message: "Trainer card created successfully", data: newCard });
   } catch (error) {
-    res.status(500).json({ message: "Error creating trainer card", error });
+    console.error("Error creating trainer card:", error);
+    res.status(500).json({ message: "Error creating trainer card", error: error.message });
   }
 };
 
 // Get All Trainer Cards
-exports.getTrainerCards = async (req, res) => {
+export const getTrainerCards = async (req, res) => {
   try {
-    const cards = await TrainerCard.find();
+    const cards = await TrainerModal.find();
     res.status(200).json(cards);
   } catch (error) {
     res.status(500).json({ message: "Error fetching trainer cards", error });

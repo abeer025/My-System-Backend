@@ -10,7 +10,7 @@ import {
 const router = express.Router();
 
 // 1. Admin creates a course
-router.route("/").post(isAuthenticated, createCourse);
+router.route("/").post(createCourse);
 
 // 2. Student fetches available courses
 router.route("/available").get(getAvailableCourses);

@@ -21,13 +21,14 @@ export const createCourse = async (req, res) => {
 // 2. Get all available courses (Student functionality)
 export const getAvailableCourses = async (req, res) => {
   try {
-    const courses = await CourseModal.find({ isPublished: true });
+    const courses = await CourseModal.find();
     return res.status(200).json(courses);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Failed to fetch courses." });
   }
 };
+
 
 // 3. Get trainer's courses with enrolled students (trainer functionality)
 export const gettrainerCourses = async (req, res) => {
