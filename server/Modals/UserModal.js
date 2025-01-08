@@ -4,15 +4,15 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
-    FullName: String,
+    fullName: String,
     email: { type: String, required: true },
     // profileImage: { type: String },
     password: { type: String, required: true },
-    // role: {
-    //   type: String,
-    //   enum: ["admin", "student", "trainer"],
-    //   default: "student",
-    // },
+    role: {
+      type: String,
+      enum: ["user", "admin", "student", "trainer"],
+      default: "user",
+    },
     // enrolledCourses: [
     //   {
     //     type: mongoose.Schema.Types.ObjectId,
