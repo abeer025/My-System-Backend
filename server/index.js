@@ -25,13 +25,13 @@ app.use(
   })
 );
 // Routes
-app.use('/api/v1/trainer', trainer);
 
 // apis routers
 app.use("/api/v1/user", user);
 app.use("/api/v1/course", course);
 app.use("/api/v1/batch", batch);
 app.use("/api/v1/applyCourse", applyCourse);
+app.use('/api/v1/trainer', trainer);
 
 app.listen(PORT, () => {
   console.log(`Server listen at port ${PORT}`);
