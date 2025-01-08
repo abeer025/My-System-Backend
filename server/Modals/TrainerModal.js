@@ -1,10 +1,11 @@
-import mongoose from 'mongoose';
+  import mongoose from 'mongoose';
 
-const TrainerSchema = new mongoose.Schema({
-  courseName: { type: String, required: true },
-  batchName: { type: String, required: true },
-  studentName: { type: String, required: true },
-  avatarUrl: { type: String, required: false },
-}, { timestamps: true });
+  const TrainerSchema = new mongoose.Schema({
+    trainerName: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    age: { type: Number, required: true },
+    avatarUrl: { type: String },
+  }, { timestamps: true });
 
-export const TrainerModal = mongoose.models.Trainer || mongoose.model("Trainer", TrainerSchema);
+  export const TrainerModal = mongoose.models.Trainer || mongoose.model("Trainer", TrainerSchema);
