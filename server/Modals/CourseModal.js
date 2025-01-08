@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-const { Schema } = mongoose;
-
 const courseSchema = new mongoose.Schema(
   {
     title: { type: String, unique: true },
@@ -9,14 +7,17 @@ const courseSchema = new mongoose.Schema(
     duration: String,
     eligibility: [String],
     thumbnail: String,
-    trainerId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, //to get trainer id if login as trainer
-    enrolledStudents: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], //to get student id
-
+    trainerId: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "User" // assuming you have a User model for trainers
+    },
+    enrolledStudents: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    trainerName: { type: String }, // add trainerName as a simple string field
   },
   {
     timestamps: true,
   }
-);
+)
 
 export const CourseModal =
   mongoose.models.Course || mongoose.model("Course", courseSchema);
