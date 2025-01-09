@@ -4,7 +4,7 @@ import { UserModal } from "../Modals/UserModal.js";
 export const register = async (req, res) => {
   try {
     console.log(req.body)
-    const { FullName, email, password } = req.body;
+    const { fullName, email, password } = req.body;
     if (!email || !password) {
       return res.status(400).json({
         success: false,
@@ -20,7 +20,7 @@ export const register = async (req, res) => {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     await UserModal.create({
-      FullName,
+      fullName,
       email,
       password: hashedPassword,
     });
