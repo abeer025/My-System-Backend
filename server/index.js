@@ -6,6 +6,7 @@ import course from "./routers/course.route.js";
 import batch from "./routers/batch.route.js";
 import applyCourse from "./routers/applyCourse.route.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import trainer from './routers/trainer.route.js'
 
 dotenv.config({});
@@ -18,6 +19,8 @@ const PORT = process.env.PORT || 8000;
 
 // default middleware
 app.use(express.json());
+app.use(cookieParser());
+
 app.use(
   cors({
     origin: "http://localhost:5173",

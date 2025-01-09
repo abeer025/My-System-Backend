@@ -20,8 +20,8 @@ export const register = async (req, res) => {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     await UserModal.create({
-      fullName,
-      email,
+      fullName : fullName,
+      email: email,
       password: hashedPassword,
     });
     return res.status(201).json({
@@ -60,7 +60,7 @@ export const login = async (req, res) => {
         message: "Incorrect email or password",
       });
     }
-    generateToken(res, user, `Welcome back ${user.name}`);
+    generateToken(res, user, `Welcome back ${user.fullName}`);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
