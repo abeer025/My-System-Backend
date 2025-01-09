@@ -18,6 +18,43 @@ export const createCourse = async (req, res) => {
   }
 };
 
+// export const createCourse = async (req, res) => {
+
+//   try {
+//     const { title, duration, eligibility, trainerId } = req.body;
+
+//     // Validate required fields
+//     if (!title || !duration || !eligibility || !trainerId) {
+//       return res.status(400).json({ message: "All fields are required." });
+//     }
+
+//     // Create the course
+//     const course = await CourseModal.create({
+//       title,
+//       duration,
+//       eligibility,
+//       trainerId,
+//     });
+
+//     // Populate trainerId with user details
+//     const populatedCourse = await CourseModal.findById(course._id).populate(
+//       "trainerId",
+//       "name email" // Specify fields to include (e.g., name, email)
+//     );
+
+//     console.log("Populated Course:", populatedCourse);
+
+//     return res
+//       .status(201)
+//       .json({ course: populatedCourse, message: "Course created successfully." });
+//   } catch (error) {
+//     console.error("Error creating course:", error);
+//     return res.status(500).json({ message: "Failed to create course." });
+//   }
+// };
+
+ 
+
 // 2. Get all available courses (Student functionality)
 export const getAvailableCourses = async (req, res) => {
   try {
