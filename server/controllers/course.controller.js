@@ -3,21 +3,38 @@ import { CourseModal } from "../Modals/CourseModal.js";
 // 1. Create a new course (Admin functionality)
 export const createCourse = async (req, res) => {
   try {
-    const { title, duration, eligibility } = req.body;
-    if (!title || !duration || !eligibility) {
+    const { title, description, duration, eligibility, trainerId, trainerName, thumbnail } = req.body;
+
+    // Validate required fields
+    if (!title || !description || !duration || !eligibility || !trainerId || !trainerName) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
-    const course = await CourseModal.create({ title, duration, eligibility });
+    // Create the course
+    const course = await CourseModal.create({
+      title,
+      description,
+      duration,
+      eligibility,
+      thumbnail, // optional field
+      trainerId,
+      trainerName,
+    });
+
     return res
       .status(201)
       .json({ course, message: "Course created successfully." });
   } catch (error) {
-    console.error(error);
+    console.error("Error creating course:", error);
+
+    // Check for duplicate title error
+    if (error.code === 11000 && error.keyPattern && error.keyPattern.title) {
+      return res.status(409).json({ message: "Course title must be unique." });
+    }
+
     return res.status(500).json({ message: "Failed to create course." });
   }
-};
-
+}
 // export const createCourse = async (req, res) => {
 
 //   try {
