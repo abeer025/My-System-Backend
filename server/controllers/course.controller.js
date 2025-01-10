@@ -35,6 +35,30 @@ export const createCourse = async (req, res) => {
     return res.status(500).json({ message: "Failed to create course." });
   }
 }
+
+// 5. Get single course details (General functionality)
+// export const getCourseById = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+
+//     // Fetch course by ID
+//     const course = await CourseModal.findById(id).populate(
+//       "trainerId",
+//       "name email"
+//     );
+
+//     if (!course) {
+//       return res.status(404).json({ message: "Course not found." });
+//     }
+
+//     return res.status(200).json(course);
+//   } catch (error) {
+//     console.error("Error fetching course details:", error);
+//     return res.status(500).json({ message: "Failed to fetch course details." });
+//   }
+// };
+
+
 // export const createCourse = async (req, res) => {
 
 //   try {
