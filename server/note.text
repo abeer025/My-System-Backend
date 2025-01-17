@@ -24,6 +24,15 @@ http://localhost:4000/api/v1/trainer/
 #API FOR TRAINER get
 http://localhost:4000/api/v1/trainer/available/
 
+#API FOR ASSIGNMENT ADD
+http://localhost:4000/api/v1/assignments
+
+#API FOR ASSIGNMENT GET
+http://localhost:4000/api/v1/assignments/available
+
+
+
+
 #API FOR BATCHES
 http://localhost:4000/api/v1/batch/
 

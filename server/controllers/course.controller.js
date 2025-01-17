@@ -37,26 +37,40 @@ export const createCourse = async (req, res) => {
 }
 
 // 5. Get single course details (General functionality)
-// export const getCourseById = async (req, res) => {
-//   try {
-//     const { id } = req.params;
+// Fetch course details by name
+// 5. Get single course details (General functionality)
+export const getCourseDetails = async (req, res) => {
+  try {
+    const { courseId} = req.params;
 
-//     // Fetch course by ID
-//     const course = await CourseModal.findById(id).populate(
-//       "trainerId",
-//       "name email"
-//     );
+    // Fetch course details by title
+    const course = await CourseModal.findOne({ title : courseId }).populate(
+      "trainerId",
+      "name email" // Populate trainer details with name and email
+    );
 
-//     if (!course) {
-//       return res.status(404).json({ message: "Course not found." });
-//     }
+    // If the course is not found
+    if (!course) {
+      return res.status(404).json({ message: "Course not found." });
+    }
 
-//     return res.status(200).json(course);
-//   } catch (error) {
-//     console.error("Error fetching course details:", error);
-//     return res.status(500).json({ message: "Failed to fetch course details." });
-//   }
-// };
+    // Return course details
+    return res.status(200).json({
+      courseDetails: {
+        title: course.title,
+        description: course.description,
+        duration: course.duration,
+        eligibility: course.eligibility,
+        trainer: course.trainerId ? { name: course.trainerId.name, email: course.trainerId.email } : "Trainer details unavailable",
+        enrolledStudents: course.students ? course.students.length : 0,
+      },
+      message: "Course details fetched successfully.",
+    });
+  } catch (error) {
+    console.error("Error fetching course details:", error);
+    return res.status(500).json({ message: "Failed to fetch course details." });
+  }
+};
 
 
 // export const createCourse = async (req, res) => {
