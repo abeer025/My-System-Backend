@@ -119,6 +119,7 @@ export const getUserProfile = async (req, res) => {
         message: "User not found.",
       });
     }
+    console.log(res,message);
 
     return res.status(200).json({
       success: true,
