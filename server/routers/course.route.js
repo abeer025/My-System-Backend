@@ -5,6 +5,7 @@ import {
   getAvailableCourses,
   gettrainerCourses,
   getCourseEnrollments,
+  getCourseDetails,
 } from "../controllers/course.controller.js";
 
 const router = express.Router();
@@ -15,6 +16,8 @@ router.route("/").post(createCourse);
 
 // 2. Student fetches available courses
 router.route("/available").get(getAvailableCourses);
+
+router.get("/details/:courseId", getCourseDetails);
 
 // 3. trainer fetches their courses and enrolled students
 router.route("/trainer/:trainerId").get(isAuthenticated, gettrainerCourses);
