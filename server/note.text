@@ -31,7 +31,11 @@ http://localhost:4000/api/v1/assignments
 http://localhost:4000/api/v1/assignments/available
 
 
+#API FOR RESOURCES ADD
+http://localhost:4000/api/v1/resources
 
+#API FOR RESOURCES GET
+http://localhost:4000/api/v1/resources/available
 
 #API FOR BATCHES
 http://localhost:4000/api/v1/batch/

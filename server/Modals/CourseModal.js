@@ -33,6 +33,14 @@ const courseSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId, 
       ref: "User" 
     }],
+    batch: { // New field for batch
+      type: String, 
+      required: true
+    },
+    section: { // New field for section
+      type: String, 
+      required: true
+    }
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields

@@ -3,10 +3,10 @@ import { CourseModal } from "../Modals/CourseModal.js";
 // 1. Create a new course (Admin functionality)
 export const createCourse = async (req, res) => {
   try {
-    const { title, description, duration, eligibility, trainerId, trainerName, thumbnail } = req.body;
+    const { title, description, duration, eligibility, trainerId, trainerName, thumbnail, batch, section } = req.body;
 
     // Validate required fields
-    if (!title || !description || !duration || !eligibility || !trainerId || !trainerName) {
+    if (!title || !description || !duration || !eligibility || !trainerId || !trainerName || !batch || !section) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
@@ -19,6 +19,8 @@ export const createCourse = async (req, res) => {
       thumbnail, // optional field
       trainerId,
       trainerName,
+      batch,
+      section,
     });
 
     return res
@@ -34,81 +36,7 @@ export const createCourse = async (req, res) => {
 
     return res.status(500).json({ message: "Failed to create course." });
   }
-}
-
-// 5. Get single course details (General functionality)
-// Fetch course details by name
-// 5. Get single course details (General functionality)
-export const getCourseDetails = async (req, res) => {
-  try {
-    const { courseId} = req.params;
-
-    // Fetch course details by title
-    const course = await CourseModal.findOne({ title : courseId }).populate(
-      "trainerId",
-      "name email" // Populate trainer details with name and email
-    );
-
-    // If the course is not found
-    if (!course) {
-      return res.status(404).json({ message: "Course not found." });
-    }
-
-    // Return course details
-    return res.status(200).json({
-      courseDetails: {
-        title: course.title,
-        description: course.description,
-        duration: course.duration,
-        eligibility: course.eligibility,
-        trainer: course.trainerId ? { name: course.trainerId.name, email: course.trainerId.email } : "Trainer details unavailable",
-        enrolledStudents: course.students ? course.students.length : 0,
-      },
-      message: "Course details fetched successfully.",
-    });
-  } catch (error) {
-    console.error("Error fetching course details:", error);
-    return res.status(500).json({ message: "Failed to fetch course details." });
-  }
 };
-
-
-// export const createCourse = async (req, res) => {
-
-//   try {
-//     const { title, duration, eligibility, trainerId } = req.body;
-
-//     // Validate required fields
-//     if (!title || !duration || !eligibility || !trainerId) {
-//       return res.status(400).json({ message: "All fields are required." });
-//     }
-
-//     // Create the course
-//     const course = await CourseModal.create({
-//       title,
-//       duration,
-//       eligibility,
-//       trainerId,
-//     });
-
-//     // Populate trainerId with user details
-//     const populatedCourse = await CourseModal.findById(course._id).populate(
-//       "trainerId",
-//       "name email" // Specify fields to include (e.g., name, email)
-//     );
-
-//     console.log("Populated Course:", populatedCourse);
-
-//     return res
-//       .status(201)
-//       .json({ course: populatedCourse, message: "Course created successfully." });
-//   } catch (error) {
-//     console.error("Error creating course:", error);
-//     return res.status(500).json({ message: "Failed to create course." });
-//   }
-// };
-
- 
 
 // 2. Get all available courses (Student functionality)
 export const getAvailableCourses = async (req, res) => {
@@ -121,13 +49,12 @@ export const getAvailableCourses = async (req, res) => {
   }
 };
 
-
 // 3. Get trainer's courses with enrolled students (trainer functionality)
-export const gettrainerCourses = async (req, res) => {
+export const getTrainerCourses = async (req, res) => {
   try {
     const { trainerId } = req.params;
     const courses = await CourseModal.find({ trainerId }).populate(
-      "students",
+      "enrolledStudents",
       "name email"
     );
 
@@ -151,7 +78,7 @@ export const getCourseEnrollments = async (req, res) => {
   try {
     const { id } = req.params;
     const course = await CourseModal.findById(id).populate(
-      "students",
+      "enrolledStudents",
       "name email"
     );
 
@@ -161,13 +88,51 @@ export const getCourseEnrollments = async (req, res) => {
 
     return res.status(200).json({
       courseTitle: course.title,
-      studentsEnrolled: course.students.length,
-      studentsDetails: course.students,
+      batch: course.batch,
+      section: course.section,
+      studentsEnrolled: course.enrolledStudents.length,
+      studentsDetails: course.enrolledStudents,
     });
   } catch (error) {
     console.error(error);
     return res
       .status(500)
       .json({ message: "Failed to fetch course enrollments." });
+  }
+};
+
+// 5. Get single course details (General functionality)
+export const getCourseDetails = async (req, res) => {
+  try {
+    const { courseId } = req.params;
+
+    // Fetch course details by title
+    const course = await CourseModal.findOne({ title: courseId }).populate(
+      "trainerId",
+      "name email" // Populate trainer details with name and email
+    );
+
+    // If the course is not found
+    if (!course) {
+      return res.status(404).json({ message: "Course not found." });
+    }
+
+    // Return course details
+    return res.status(200).json({
+      courseDetails: {
+        title: course.title,
+        description: course.description,
+        duration: course.duration,
+        eligibility: course.eligibility,
+        trainer: course.trainerId ? { name: course.trainerId.name, email: course.trainerId.email } : "Trainer details unavailable",
+        batch: course.batch,
+        section: course.section,
+        enrolledStudents: course.enrolledStudents ? course.enrolledStudents.length : 0,
+      },
+      message: "Course details fetched successfully.",
+    });
+  } catch (error) {
+    console.error("Error fetching course details:", error);
+    return res.status(500).json({ message: "Failed to fetch course details." });
   }
 };

@@ -9,6 +9,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import trainer from './routers/trainer.route.js'
 import assignment from "./routers/assignment.route.js"
+import resourceRoutes from './routers/resources.route.js'
 
 dotenv.config({});
 
@@ -37,6 +38,7 @@ app.use("/api/v1/batch", batch);
 app.use("/api/v1/applyCourse", applyCourse);
 app.use('/api/v1/trainer', trainer);
 app.use("/api/v1/assignments", assignment);
+app.use("/api/v1/resources", resourceRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server listen at port ${PORT}`);
