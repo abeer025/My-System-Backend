@@ -3,10 +3,10 @@ import { AssignmentModal } from "../Modals/AssignmentModal.js";
 // 1. Create a new assignment (Admin functionality)
 export const createAssignment = async (req, res) => {
   try {
-    const { title, description, dueDate, batch, points } = req.body;
+    const { title, description, dueDate, batch, section, points, courseName, status } = req.body;
 
     // Validate required fields
-    if (!title || !description || !dueDate || !batch || !points) {
+    if (!title || !description || !dueDate || !batch || !section || !points || !courseName) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
@@ -16,7 +16,10 @@ export const createAssignment = async (req, res) => {
       description,
       dueDate,
       batch,
+      section,
       points,
+      courseName,
+      status: status || "Pending", // Default status to "Pending" if not provided
     });
 
     return res.status(201).json({
@@ -75,5 +78,37 @@ export const deleteAssignment = async (req, res) => {
   } catch (error) {
     console.error("Error deleting assignment:", error);
     return res.status(500).json({ message: "Failed to delete assignment." });
+  }
+};
+
+// 5. Update assignment status (New functionality)
+export const updateAssignmentStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    // Validate input
+    if (!["Pending", "In Progress", "Completed"].includes(status)) {
+      return res.status(400).json({ message: "Invalid status value." });
+    }
+
+    // Update assignment by ID
+    const updatedAssignment = await AssignmentModal.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedAssignment) {
+      return res.status(404).json({ message: "Assignment not found." });
+    }
+
+    return res.status(200).json({
+      assignment: updatedAssignment,
+      message: "Assignment status updated successfully.",
+    });
+  } catch (error) {
+    console.error("Error updating assignment status:", error);
+    return res.status(500).json({ message: "Failed to update assignment status." });
   }
 };

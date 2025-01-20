@@ -3,7 +3,7 @@ import isAuthenticated from "../middlewares/isAuthenticated.js";
 import {
   createCourse,
   getAvailableCourses,
-  gettrainerCourses,
+  getTrainerCourses,
   getCourseEnrollments,
   getCourseDetails,
 } from "../controllers/course.controller.js";
@@ -20,9 +20,9 @@ router.route("/available").get(getAvailableCourses);
 router.get("/details/:courseId", getCourseDetails);
 
 // 3. trainer fetches their courses and enrolled students
-router.route("/trainer/:trainerId").get(isAuthenticated, gettrainerCourses);
+router.route("/trainer/:trainerId").get( getTrainerCourses);
 
 // 4. Admin fetches enrollment details for a course
-router.route("/:id/enrollments").get(isAuthenticated, getCourseEnrollments);
+router.route("/:id/enrollments").get( getCourseEnrollments);
 
 export default router;
