@@ -11,27 +11,26 @@ import trainer from './routers/trainer.route.js'
 import assignment from "./routers/assignment.route.js"
 import resourceRoutes from './routers/resources.route.js'
 
+// Load environment variables
 dotenv.config({});
 
-// call database connection here
+// Connect to the database
 connectDB();
-const app = express();
 
+const app = express();
 const PORT = process.env.PORT || 8000;
 
-// default middleware
+// Default middlewares
 app.use(express.json());
 app.use(cookieParser());
-
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5173", // Replace with production frontend URL
     credentials: true,
   })
 );
-// Routes
 
-// apis routers
+// API Routes
 app.use("/api/v1/user", user);
 app.use("/api/v1/course", course);
 app.use("/api/v1/batch", batch);
@@ -40,6 +39,7 @@ app.use('/api/v1/trainer', trainer);
 app.use("/api/v1/assignments", assignment);
 app.use("/api/v1/resources", resourceRoutes);
 
+// Start the server
 app.listen(PORT, () => {
-  console.log(`Server listen at port ${PORT}`);
+  console.log(`Server listening at port ${PORT}`);
 });
