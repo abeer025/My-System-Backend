@@ -110,7 +110,7 @@ export const logout = async (_, res) => {
 // Get user profile
 export const getUserProfile = async (req, res) => {
   try {
-    const userId = req.id; // Ensure req.id is properly set by middleware
+    const userId = req._id; // Ensure req.id is properly set by middleware
     const user = await UserModal.findById(userId).select("-password"); // Exclude password
 
     if (!user) {
