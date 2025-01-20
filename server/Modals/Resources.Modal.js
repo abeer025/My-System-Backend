@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// Define resource schema
 const resourceSchema = new mongoose.Schema(
   {
     title: {
@@ -14,7 +15,7 @@ const resourceSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ['video', 'document', 'link', 'github', 'other'],
+      enum: ["video", "document", "link", "github", "other"], // Resource type options
     },
     url: {
       type: String,
@@ -39,14 +40,14 @@ const resourceSchema = new mongoose.Schema(
     },
     date: {
       type: Date,
-      default: () => new Date(), // Sets the current date by default
+      default: () => new Date(), // Automatically sets the current date
     },
     time: {
       type: String,
-      default: () => new Date().toLocaleTimeString(), // Sets the current time in a readable format
+      default: () => new Date().toLocaleTimeString(), // Sets the current time
     },
   },
-  { timestamps: true } // Automatically adds createdAt and updatedAt fields
+  { timestamps: true } // Adds createdAt and updatedAt fields
 );
 
 export const ResourceModal =
