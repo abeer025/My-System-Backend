@@ -19,5 +19,5 @@ router.route("/login").post(login);
 // 3. For logout to get a user
 router.route("/logout").get(logout);
 
-router.route("/profile").get(isAuthenticated,getUserProfile);
+router.route("/profile").get(isAuthenticated, getUserProfile);
 export default router;

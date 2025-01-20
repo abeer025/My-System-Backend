@@ -1,47 +1,55 @@
 import jwt from "jsonwebtoken";
 
-const isAuthenticated = async (req, res, next) => {
+const isAuthenticated = (req, res, next) => {
   try {
-    // Extract the token from the Authorization header
+    // Retrieve Authorization header
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res
-        .status(403)
-        .json({ message: "No token provided", success: false });
+      return res.status(401).json({
+        success: false,
+        message: "Authorization header missing or invalid.",
+      });
     }
-    console.log("Authorization Header:", req.headers.authorization);
-    console.log("Extracted Token:", token);
 
+    // Extract token
     const token = authHeader.split(" ")[1];
-
-    // Verify the token
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    console.log("Decoded Token:", decoded);
-
-    if (!decoded) {
-      return res.status(401).json({ message: "Invalid token", success: false });
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: "Token not found in Authorization header.",
+      });
     }
 
-    // Attach user ID to the request object
-    req.userId = decoded.userId;
+    // Verify token
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        if (err.name === "TokenExpiredError") {
+          return res.status(401).json({
+            success: false,
+            message: "Token has expired. Please log in again.",
+          });
+        } else if (err.name === "JsonWebTokenError") {
+          return res.status(401).json({
+            success: false,
+            message: "Malformed token. Please log in again.",
+          });
+        } else {
+          return res.status(401).json({
+            success: false,
+            message: "Invalid token.",
+          });
+        }
+      }
 
-    // Proceed to the next middleware or route handler
-    next();
+      req.user = decoded; // Attach decoded payload to `req.user`
+      req._id = decoded.id; // Attach user ID to `req._id`
+      next(); // Continue to the next middleware/route
+    });
   } catch (error) {
     console.error("Error in authentication middleware:", error);
-
-    // Handle specific JWT errors
-    if (error.name === "JsonWebTokenError") {
-      return res.status(401).json({ message: "Invalid token", success: false });
-    } else if (error.name === "TokenExpiredError") {
-      return res.status(401).json({ message: "Token expired", success: false });
-    }
-
-    // Generic error response
     res.status(500).json({
-      message: "An error occurred during authentication",
       success: false,
-      error: error.message,
+      message: "Internal Server Error.",
     });
   }
 };
