@@ -18,17 +18,12 @@ dotenv.config({});
 connectDB();
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 4000;
 
 // Default middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: "http://localhost:5173", // Replace with production frontend URL
-    credentials: true,
-  })
-);
+app.use(cors());
 
 // API Routes
 app.use("/api/v1/user", user);
